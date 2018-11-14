@@ -34,15 +34,19 @@ def raw_to_array(filename, downscale=False):
 
 def Create_filelist(full_path):
     """Create list of .raw files in directory or get single filename"""
-
+    #print(full_path)
+    #print(os.path.isdir(full_path))
     if not os.path.isdir(full_path):
+        #print(1)
 
         return [full_path]
 
     else:
-        all_files = [full_path + '\\' + f for f in os.listdir(full_path) if(
-            os.path.isfile(f) and os.path.splitext(f)[1] == '.raw')]
-
+        #print(2)
+        #print(full_path)
+        #print(os.listdir(full_path))
+        all_files = [full_path + '\\' + f for f in os.listdir(full_path) if(os.path.splitext(f)[1] == '.raw')]
+    #print(all_files)
     return all_files
 
 
@@ -50,6 +54,7 @@ def conv(path, downscale=False):
     """ convert all files in path directory or
     only file with path = path using raw_to_array() dunction"""
     count = 0
+    #print(path)
     for i in Create_filelist(path):
         raw_to_array(i, downscale=downscale)
         count += 1
@@ -69,6 +74,8 @@ if __name__ == "__main__":
     parser.add_argument('D', metavar='D', type=bool, nargs='?', const=False,
                         help="""If image need to be downscaled to 8 bit using mapping from [min_val -  max_val] to [0 - 255]""")
     args = parser.parse_args()
+
+    #print(args.Path)
     if args.D is None:
         conv(args.Path)
     else:
